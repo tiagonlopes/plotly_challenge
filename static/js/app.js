@@ -42,7 +42,7 @@ function sampleInfo(data) {
         type: "scatter"
     };
     var dataBubble = [traceBubble];
-    var layoutBubble = {showlegend: false, height:auto};
+    var layoutBubble = {showlegend: false};
     Plotly.newPlot("bubble", dataBubble, layoutBubble);
 };
 
