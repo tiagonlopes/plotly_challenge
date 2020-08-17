@@ -26,8 +26,10 @@ function sampleInfo(data) {
     // data
     var dataBar = [traceBar];
     // Apply the group bar mode to the layout
-    var layoutBar = { showlegend: false,
-    margin:{t:0}};
+    var layoutBar = {
+        showlegend: false,
+        margin: { t: 0 }
+    };
     Plotly.newPlot("bar", dataBar, layoutBar);
 
     var traceBubble = {
@@ -37,12 +39,12 @@ function sampleInfo(data) {
         mode: 'markers',
         marker: {
             color: samplesData.map(row => row.otu_ids),
-            size: samplesData.map(row => row.values),
+            size: samplesData.map(row => row.values)
         },
         type: "scatter"
     };
     var dataBubble = [traceBubble];
-    var layoutBubble = {showlegend: false};
+    var layoutBubble = { showlegend: false };
     Plotly.newPlot("bubble", dataBubble, layoutBubble);
 };
 
@@ -50,7 +52,7 @@ function metadataInfo(data) {
 
     var wfreq = data.wfreq;
     //Calculate Indicator Angle Radians
-    var radians = Math.PI * (9-wfreq) / 9;
+    var radians = Math.PI * (9 - wfreq) / 9;
     var radius = 0.5;
     var x = radius * Math.cos(radians);
     var y = radius * Math.sin(radians);
@@ -61,45 +63,52 @@ function metadataInfo(data) {
         pathY = y.toString(),
         pathEnd = ' Z';
 
-    var path = mainPath.concat(pathX,space,pathY,pathEnd);
+    var path = mainPath.concat(pathX, space, pathY, pathEnd);
     var gauge = [{
-        type: 'scatter',
-        x:[0],
-        y:[0],
-        marker:{size:14,color:'850000'},
-        showlegend:false,
-        hoverinfo:'none',
-        text: wfreq},
-        {values:[1,1,1,1,1,1,1,1,1,9],
-        rotation:90,
-        text:['8-9','7-8','6-7','5-6','4-5','3-4','2-3','1-2','0-1',''],
-        textinfo:'text',
-        textposition:'inside',
-        marker:{colors:['#008000','#009900','#00b300','#00e600','#1aff1a','#4dff4d','#80ff80','#b3ffb3','#e6ffe6','#ffffff']},
-        hoverinfo:'none',
-        hole:.5,
-        type:'pie',
-        showlegend:false
-    }];
+            type: 'scatter',
+            x: [0],
+            y: [0],
+            marker: { size: 14, color: '850000' },
+            showlegend: false,
+            hoverinfo: 'none',
+            text: wfreq
+        },
+        {
+            values: [1, 1, 1, 1, 1, 1, 1, 1, 1, 9],
+            rotation: 90,
+            text: ['8-9', '7-8', '6-7', '5-6', '4-5', '3-4', '2-3', '1-2', '0-1', ''],
+            textinfo: 'text',
+            textposition: 'inside',
+            marker: { colors: ['#008000', '#009900', '#00b300', '#00e600', '#1aff1a', '#4dff4d', '#80ff80', '#b3ffb3', '#e6ffe6', '#ffffff'] },
+            hoverinfo: 'none',
+            hole: .5,
+            type: 'pie',
+            showlegend: false
+        }
+    ];
 
-    var layoutGauge ={
-        shapes:[{
-            type:'path',
+    var layoutGauge = {
+        shapes: [{
+            type: 'path',
             path: path,
-            fillcolor:'850000',
-            line:{color:'850000'}
+            fillcolor: '850000',
+            line: { color: '850000' }
         }],
-        height:500,
-        width:500,
-        title:'<b>Belly Button Washing Frequency</b><br>Scrubs per Week',
-        xaxis:{zeroline:false,
-        showticklabels:false,
-        showgrid:false,
-        range:[-1,1]},
-        yaxis:{zeroline:false,
-            showticklabels:false,
-            showgrid:false,
-            range:[-1,1]}
+        height: 500,
+        width: 500,
+        title: '<b>Belly Button Washing Frequency</b><br>Scrubs per Week',
+        xaxis: {
+            zeroline: false,
+            showticklabels: false,
+            showgrid: false,
+            range: [-1, 1]
+        },
+        yaxis: {
+            zeroline: false,
+            showticklabels: false,
+            showgrid: false,
+            range: [-1, 1]
+        }
     }
 
     Plotly.newPlot("gauge", gauge, layoutGauge);
@@ -110,7 +119,7 @@ function metadataInfo(data) {
 
     var keys = Object.keys(data);
     var values = Object.values(data);
-    for(var j=0; j<keys.length;j++){
+    for (var j = 0; j < keys.length; j++) {
 
         infoPanel.append("p").text(`${keys[j]}:${values[j]}`)
     };
@@ -129,7 +138,7 @@ function init() {
             .enter()
             .append("option")
             .text(function(d) { return d })
-            .attr("value",function(d) { return d });
+            .attr("value", function(d) { return d });
 
         //indexOf
 
@@ -141,10 +150,10 @@ function init() {
 
 d3.selectAll("#selDataset").on("change", updatePlotly)
 
-function updatePlotly(){
+function updatePlotly() {
     var dropDownList = d3.select("#selDataset");
     dataset = dropDownList.property("value");
-    
+
     d3.json("static/data/samples.json").then(function(data) {
         var samplesId = data.names;
         var samplesMetadata = data.metadata;
